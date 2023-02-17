@@ -1,9 +1,9 @@
 import React from 'react';
 
-function ChatContainer() {
+function ChatContainer({currentUser,currentContact}) {
     return (
         <div>
-            ChatContainer
+            {currentContact.username}
         </div>
     );
 }

@@ -4,12 +4,15 @@ import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import ChatContainer from "../components/ChatContainer";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {userContacts} from "../Routes";
 
 function Chat() {
     const navigate = useNavigate()
     const [currentUser, setCurrentUser] = useState(undefined)
     const [contacts, setContacts] = useState([])
     const [currentChat, setCurrentChat] = useState(undefined)
+    const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(()=>{
         async function fetchUserData(){
@@ -19,19 +22,27 @@ function Chat() {
         fetchUserData();
     }, [])
 
+    useEffect(()=>{
+        async function fetchUserContacts(){
+            if (currentUser){
+                const data = await axios.get(`${userContacts}/${currentUser._id}`)
+                setContacts(data.data)
+                setIsLoaded(true)
+            }
+        }
+        fetchUserContacts();
+    }, [currentUser])
 
-
-    function handelChatChange(chat){
-        setCurrentChat(chat)
+    function handelChatChange(contactData){
+        setCurrentChat(contactData)
     }
 
     return (
         <>
             <Container>
                 <div className="container">
-                    <Contacts contacts={contacts} handelChatChange={handelChatChange}/>
-                    {currentChat === undefined ? <Welcome/> : <ChatContainer currentUser={currentUser}/>}
-
+                    {isLoaded ? (<Contacts contacts={contacts} handelChatChange={handelChatChange}/>) : null}
+                    {currentChat === undefined ? <Welcome/> : <ChatContainer currentUser={currentUser} currentContact={currentChat}/>}
                 </div>
             </Container>
         </>
