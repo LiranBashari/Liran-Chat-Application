@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Logo from "../logo.svg";
 import {Link, useNavigate} from "react-router-dom";
 import styled from "styled-components";
-import {toast} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import axios from "axios";
 import {login} from "../Routes";
 
@@ -58,8 +58,8 @@ function Login() {
                         DON'T HAVE AN ACCOUNT ? <Link className="link" to="/register"> Register</Link>
                     </p>
                 </form>
-
             </FormContainer>
+            <ToastContainer/>
         </>
     );
 }
