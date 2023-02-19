@@ -2,16 +2,27 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IoSend } from 'react-icons/io5';
 
-function ChatInput() {
+function ChatInput({handleSendMessage}) {
     const [message, setMessage] = useState('');
 
     function handleSend(event) {
         event.preventDefault();
-        // Add your logic to send the message
+        if (message.length > 0) {
+            handleSendMessage(message)
+            setMessage("")
+        }
     }
 
-    function handleChange(event) {
+    function handleMessageChange(event) {
         setMessage(event.target.value);
+    }
+
+    function handleKeyDown(event) {
+        if (event.keyCode === 13 && !event.shiftKey && message.length > 0) {
+            event.preventDefault();
+            handleSendMessage(message);
+            setMessage("");
+        }
     }
 
     return (
@@ -20,7 +31,9 @@ function ChatInput() {
                 <textarea
                     placeholder="Type your message here..."
                     value={message}
-                    onChange={handleChange}/>
+                    onChange={handleMessageChange}
+                    onKeyDown={handleKeyDown}
+                />
                 <button type="submit"><IoSend /></button>
             </form>
         </Container>
@@ -29,7 +42,7 @@ function ChatInput() {
 
 const Container = styled.div`
   position: absolute;
-  bottom: 2.7rem;
+  bottom: 7.5%;
   right: 7%;
   left: 29%;
 
@@ -54,8 +67,6 @@ const Container = styled.div`
       outline: none;
       resize: none;
       overflow-y: auto;
-
-
       ::-webkit-scrollbar {
         width: 4px;
       }
@@ -65,20 +76,20 @@ const Container = styled.div`
       }
     }
 
-      button {
-        border: none;
-        color: black;
-        background-color: transparent;
-        cursor: pointer;
-        font-size: 30px;
-        margin-right: 15px;
-        margin-top: 6px;
+    button {
+      border: none;
+      color: black;
+      background-color: transparent;
+      cursor: pointer;
+      font-size: 30px;
+      margin-right: 15px;
+      margin-top: 6px;
 
-        &:hover {
-          color: #61dafb;
-        }
+      &:hover {
+        color: #61dafb;
       }
     }
+  }
 `;
 
 export default ChatInput;
