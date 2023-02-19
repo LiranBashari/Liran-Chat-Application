@@ -14,6 +14,7 @@ function ChatContainer({ currentUser, currentChat }) {
                 from: currentUser._id,
                 to: currentChat._id,
             });
+            console.log(messages.data)
             setUsersMessages(messages.data);
         }
         fetchMessages();
@@ -26,6 +27,11 @@ function ChatContainer({ currentUser, currentChat }) {
             message: message,
         });
     }
+
+    function formatMessage(message) {
+        return message.replace(/\n/g, "<br>");
+    }
+
     return (
         <Container>
             <div className="container-header">
@@ -37,10 +43,9 @@ function ChatContainer({ currentUser, currentChat }) {
                     return (
                         <div>
                             <div
-                                className={`message ${message.fromSelf ? "sender" : "receiver"}`}
-                            >
+                                className={`message ${message.fromSelf ? "sender" : "receiver"}`}>
                                 <div className="content">
-                                    <p>{message.message}</p>
+                                    <p dangerouslySetInnerHTML={{__html: formatMessage(message.message)}}/>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +87,7 @@ const Container = styled.div`
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.3rem;
     overflow: auto;
 
     &::-webkit-scrollbar {
@@ -98,12 +103,12 @@ const Container = styled.div`
     .message {
       display: flex;
       align-items: center;
-
       .content {
         word-break: break-word;        
         padding: 0 0.5rem 0 0.5rem;
         font-size: 0.8rem;
         border-radius: 0.8rem;
+        text-align: left;        
       }
     }
 
@@ -112,7 +117,6 @@ const Container = styled.div`
 
       .content {
         background-color: #b7edfc;
-        word-wrap: break-word; // add this property to break long words
       }
     }
 
@@ -121,7 +125,6 @@ const Container = styled.div`
 
       .content {
         background-color: white;
-        word-wrap: break-word; // add this property to break long words
       }
     }
   }

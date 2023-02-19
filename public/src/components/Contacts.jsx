@@ -48,7 +48,7 @@ const Container = styled.div`
   overflow: auto;
 
   &::-webkit-scrollbar {
-    width: 0.2rem;
+    width: 0.4rem;
 
     &-thumb {
       background-color: #ffffff39;
