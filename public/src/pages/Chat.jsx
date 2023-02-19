@@ -17,7 +17,9 @@ function Chat() {
     useEffect(()=>{
         async function fetchUserData(){
             if (!localStorage.getItem("Chat-App")) navigate("/login");
-            else setCurrentUser(await JSON.parse(localStorage.getItem("Chat-App")));
+            else {
+                setCurrentUser(await JSON.parse(localStorage.getItem("Chat-App")));
+            }
         }
         fetchUserData();
     }, [])
@@ -42,7 +44,7 @@ function Chat() {
             <Container>
                 <div className="container">
                     {isLoaded ? (<Contacts contacts={contacts} handelChatChange={handelChatChange}/>) : null}
-                    {currentChat === undefined ? <Welcome/> : <ChatContainer currentUser={currentUser} currentContact={currentChat}/>}
+                    {currentChat === undefined ? <Welcome/> : <ChatContainer currentUser={currentUser} currentChat={currentChat}/>}
                 </div>
             </Container>
         </>

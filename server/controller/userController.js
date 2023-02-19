@@ -1,6 +1,5 @@
 const User = require("../model/userModel")
 const bcrypt = require("bcrypt");
-const {json} = require("express");
 
 module.exports.register = async (req, res)=>{
     try {
@@ -37,7 +36,6 @@ module.exports.login = async (req, res)=>{
 module.exports.userContacts = async (req, res)=>{
     try {
           const users = await User.find({_id:{$ne:req.params.id}}).select(["_id", "username", "email"])
-          console.log(users)
         return res.json(users)
     } catch (error) {
         console.error(error);

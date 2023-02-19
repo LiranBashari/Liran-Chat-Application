@@ -46,26 +46,32 @@ const Container = styled.div`
   align-items: center;
   background-color: #282c34;
   overflow: auto;
+
   &::-webkit-scrollbar {
-    width: 0.2rem;
+    width: 0.4rem;
+
     &-thumb {
       background-color: #ffffff39;
       width: 0.1rem;
       border-radius: 1rem;
     }
   }
+
   .user-details {
     display: flex;
     flex-direction: row;
+
     img {
       height: 2.5rem;
       padding: 1rem;
     }
+
     h2 {
       color: white;
       font-size: 25px;
     }
   }
+
   .user-contacts {
     display: flex;
     flex-direction: column;
@@ -84,15 +90,25 @@ const Container = styled.div`
       padding: 0.1rem;
       display: flex;
       gap: 1rem;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.48);
+      }
     }
+
     .selected {
       justify-content: center;
       align-items: center;
       background-color: #b7edfc;
-      h3{
+      &:hover {
+        background-color: #b7edfc;
+      }
+
+      h3 {
         color: black;
+        
       }
     }
+
     h3 {
       justify-content: center;
       align-items: center;
