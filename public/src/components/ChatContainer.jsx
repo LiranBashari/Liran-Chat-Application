@@ -4,18 +4,19 @@ import ChatInput from "./ChatInput";
 import axios from "axios";
 import { addMessage, getMessages } from "../Routes";
 
-function ChatContainer({ currentUser, currentChat }) {
+function ChatContainer({ currentUser, currentChat, socket}) {
     const [usersMessages, setUsersMessages] = useState([]);
-
+    const [arrivalMessage, setArrivalMessage] = useState(null)
     // for different chats different messages
     useEffect(() => {
         async function fetchMessages() {
-            const messages = await axios.post(getMessages, {
-                from: currentUser._id,
-                to: currentChat._id,
-            });
-            console.log(messages.data)
-            setUsersMessages(messages.data);
+            if (currentChat){
+                const messages = await axios.post(getMessages, {
+                    from: currentUser._id,
+                    to: currentChat._id,
+                });
+                setUsersMessages(messages.data);
+            }
         }
         fetchMessages();
     }, [currentChat]);
@@ -26,11 +27,38 @@ function ChatContainer({ currentUser, currentChat }) {
             to: currentChat._id,
             message: message,
         });
+        socket.current.emit("send-user", {
+            from: currentUser._id,
+            to: currentChat._id,
+            message: message,
+        })
+        const messages = [...usersMessages]
+        messages.push({fromSelf:true, message:message})
+        setUsersMessages(messages)
     }
 
     function formatMessage(message) {
         return message.replace(/\n/g, "<br>");
     }
+
+    useEffect(() => {
+        function handleReceive() {
+            if (socket.current){
+                socket.current.on("message-received", (dataMessage)=>{
+                    setArrivalMessage({fromSelf: false, message: dataMessage})
+                })
+            }
+        }
+        handleReceive();
+    }, []);
+
+    useEffect(() => {
+        function handleArrivalMessage() {
+            arrivalMessage && setUsersMessages((prev => [...prev, arrivalMessage]))
+        }
+        handleArrivalMessage();
+    }, [arrivalMessage]);
+
 
     return (
         <Container>
