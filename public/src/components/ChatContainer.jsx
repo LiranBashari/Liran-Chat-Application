@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import axios from "axios";
@@ -7,7 +7,8 @@ import { addMessage, getMessages } from "../Routes";
 function ChatContainer({ currentUser, currentChat, socket}) {
     const [usersMessages, setUsersMessages] = useState([]);
     const [arrivalMessage, setArrivalMessage] = useState(null)
-    // for different chats different messages
+    const messagesContainerRef = useRef(null);
+
     useEffect(() => {
         async function fetchMessages() {
             if (currentChat){
@@ -59,6 +60,10 @@ function ChatContainer({ currentUser, currentChat, socket}) {
         handleArrivalMessage();
     }, [arrivalMessage]);
 
+    useEffect(() => {
+        // Scroll to the bottom of the messages container whenever a new message arrives
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }, [usersMessages]);
 
     return (
         <Container>
@@ -66,7 +71,7 @@ function ChatContainer({ currentUser, currentChat, socket}) {
                 <h3>{currentChat.username}</h3>
                 <hr />
             </div>
-            <div className="chat-messages">
+            <div className="chat-messages" ref={messagesContainerRef}>
                 {usersMessages.map((message) => {
                     return (
                         <div>

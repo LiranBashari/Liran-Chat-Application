@@ -71,15 +71,16 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap:1rem;
-  background-color: #15151c;
-  
-  .container{
+  gap: 1rem;
+  background-color: rgba(21, 21, 28, 0.87);
+
+  .container {
     height: 85vh;
     width: 85vw;
     display: grid;
     grid-template-columns: 25% 75%;
-    background-color: rgba(120, 131, 154, 0.33);  }
+    background-color: rgba(120, 131, 154, 0.33);
+  }
 `
 
 export default Chat;
