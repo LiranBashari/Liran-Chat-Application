@@ -6,6 +6,7 @@ import {ToastContainer, toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import axios from "axios";
 import {register} from "../Routes";
+import {config} from 'cloudinary-react';
 
 function Register() {
     const navigate = useNavigate()
@@ -59,10 +60,12 @@ function Register() {
                         <h1>Chat App</h1>
                         <img src={Logo} alt="logo"/>
                     </div>
-                    <input type="text" placeholder="User name" name="username" onChange={(event => handelChange(event))}/>
-                    <input type="text" placeholder="Email" name="email" onChange={(event => handelChange(event))}/>
-                    <input type="password" placeholder="Password" name="password" onChange={(event => handelChange(event))}/>
-                    <input type="password" placeholder="Confirm Password" name="confirmPassword" onChange={(event => handelChange(event))}/>
+                    <input className="input" type="text" placeholder="User name" name="username" onChange={(event => handelChange(event))}/>
+                    <input className="input" type="text" placeholder="Email" name="email" onChange={(event => handelChange(event))}/>
+                    <input className="input" type="password" placeholder="Password" name="password" onChange={(event => handelChange(event))}/>
+                    <input className="input" type="password" placeholder="Confirm Password" name="confirmPassword" onChange={(event => handelChange(event))}/>
+                    <label htmlFor="image-file">Add a profile picture:</label>
+                    <input type="file" id="image-file" name="image" accept="image/*"/>
                     <button type="submit">Create User</button>
                     <p>
                         ALREADY HAVE AN ACCOUNT ? <Link  className="link" to="/login"> Login</Link>
@@ -92,11 +95,13 @@ const FormContainer = styled.div`
   }
 
   form {
+    max-width: 30rem;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     background-color: rgba(120, 131, 154, 0.33);
     border-radius: 2rem;
-    gap: 2rem;
+    gap: 1rem;
     padding: 3rem 5rem;
   }
 
@@ -108,15 +113,17 @@ const FormContainer = styled.div`
     color: white;
   }
 
-  input {
+  .input {
     background-color: transparent;
-    padding: 1rem;
+    padding: 0.8rem;
     border: 0.1rem solid #b7edfc;
     border-radius: 0.4rem;
     font-size: 1rem;
     color: white;
   }
-
+  label{
+    color: #b7edfc;
+  }
   button {
     background-color: #b7edfc;
     cursor: pointer;
@@ -129,7 +136,7 @@ const FormContainer = styled.div`
       background-color: rgba(21, 21, 28, 0.46);
     }
   }
-  
+
   p{
     color: white;
     font-family: Cursive,serif;
